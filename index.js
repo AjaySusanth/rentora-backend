@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes.js'
 import collegeRoutes from './routes/collegeRoutes.js'
 import accomodationRoutes from './routes/accomodationRoutes.js'
 import roomRoutes from "./routes/roomRoutes.js";
+import userRoutes from './routes/userRoutes.js'
 import { createCollegeTable } from './models/collegeModel.js';
 import { createAccomodationTable } from './models/accomodationModel.js';
 import { createRoomTable } from './models/roomModel.js';
@@ -32,6 +33,7 @@ app.use("/auth", authRoutes);
 app.use("/college", collegeRoutes);
 app.use("/accomodations", accomodationRoutes);
 app.use("/rooms", roomRoutes);
+app.use("/user",userRoutes)
 
 app.listen(PORT,()=>{
     console.log("server running")

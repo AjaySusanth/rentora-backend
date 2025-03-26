@@ -5,6 +5,7 @@ export const createUserTable = async() => {
         await sql`
             CREATE TABLE IF NOT EXISTS Users (
                 user_id SERIAL PRIMARY KEY,
+                supabase_id uuid UNIQUE,
                 name VARCHAR(100) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
