@@ -40,7 +40,7 @@ export const registerProperty = async (req, res) => {
         res.status(500).json({ error: "Internal server error", message:error.message });
     }
 };
-
+/*
 export const getAllAccommodations = async (req, res) => {
     try {
         const { type, district, college_id, name } = req.query;
@@ -63,7 +63,37 @@ export const getAllAccommodations = async (req, res) => {
         console.error("Error fetching accommodations:", error);
         res.status(500).json({ error: "Internal server error" ,message:error.message});
     }
+};*/
+
+export const getAllAccommodations = async (req, res) => {
+    try {
+        const { type, district, college_id, name } = req.query;
+
+        const accommodations = await sql`
+            SELECT 
+                A.*, 
+                C.college_name 
+            FROM Accommodations A
+            LEFT JOIN Colleges C ON A.college_id = C.college_id
+            WHERE 1=1
+            ${type ? sql`AND A.type ILIKE ${type}` : sql``}
+            ${district ? sql`AND A.district ILIKE ${district}` : sql``}
+            ${college_id ? sql`AND A.college_id = ${college_id}` : sql``}
+            ${name ? sql`AND A.name ILIKE ${name} || '%'` : sql``}
+        `;
+
+        if (accommodations.length === 0) {
+            return res.status(404).json({ message: "No Accommodation found" });
+        }
+
+        res.status(200).json(accommodations);
+    } catch (error) {
+        console.error("Error fetching accommodations:", error);
+        res.status(500).json({ error: "Internal server error" ,message:error.message});
+    }
 };
+
+
 
 
 export const getAccommodationById = async (req, res) => {
